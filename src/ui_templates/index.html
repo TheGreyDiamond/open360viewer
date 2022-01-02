@@ -1,37 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html class="dark">
 
 <head>
     <meta charset="UTF-8">
     <title>360 Viewer</title>
-    <script src="node_modules/marzipano/dist/marzipano.js">
+    <script src="../../node_modules/marzipano/dist/marzipano.js">
     </script>
-    <link href="./static/default.css" rel="stylesheet" />
-    <link href="./static/fontawesome-free-5.15.1-web/css/all.css" rel="stylesheet">
+    <link href="../output.css" rel="stylesheet">
+    <link href="../../static/fontawesome-free-5.15.1-web/css/all.css" rel="stylesheet">
+    <script src="../../node_modules/@themesberg/flowbite/dist/flowbite.bundle.js"></script>
 
 </head>
 
-<body>
+<body class="dark:bg-gray-800">
     <center>
-        <h1 id="state"></h1>
-        <div id="fakeDropzone" class="fakeDropzone">
-            <i class="far fa-folder-open"></i><br>
-               <a>Drag & Drop a file here</a>
-               <des>or</des>
-               <button>Browse Files</button>
+        <h1 id="state" style="display: none;"></h1>
+        <div id="fakeDropzone"
+            class="border-4 rounded-lg border-dashed border-gray-700  dark:border-white dark:text-white w-96 mt-12">
+            <i class="far fa-folder-open text-2xl mt-6"></i><br>
+            <a class="text-lg">Drag & Drop a file here</a><br>
+            <des class="text-gray-700">or</des><br>
+            <button onclick="openFile()" type="button"
+                class="z-40 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Browse
+                Files</button>
+        </div>
+        <div id="loadingBig" style="display: none;">
+            <svg class="animate-spin h-5 w-5 h-24 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" id="loadingSpinner">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+            </svg>
         </div>
     </center>
-    
+
     <div id="pano">
 
     </div>
 </body>
 
 <script>
+    document.getElementById("pano").style.display = "none";
     document.addEventListener('drop', (event) => {
         event.preventDefault();
         event.stopPropagation();
+        document.getElementById("fakeDropzone").style.display = "none";
+        document.getElementById("loadingBig").style.display = "block";
         document.getElementById("state").innerHTML = "Loading file. If this stays empty try another file."
+
         const superFile = event.dataTransfer.files[0].path;
         loadImageFromSource(superFile)
     });
@@ -53,7 +70,11 @@
         testImage(path,
             function (e, suc) {
                 if (suc == "success") {
-                    newPano(path)
+                    document.getElementById("pano").style.display = "block";
+                    setTimeout(function() {
+                        newPano(path)
+                    }, 50);
+                    
                 }
                 else {
                     document.getElementById("state").innerHTML = "Load failed."
@@ -89,41 +110,7 @@
     }
 
 </script>
-<script>
-    const { ipcRenderer } = require('electron')
-
-    ipcRenderer.on('FileData', function (event, data) {
-        console.log(data);
-        if (data.canceled == false) {
-            // newPano(data.filePaths[0])
-            document.getElementById("state").innerHTML = "Loading file. If this stays empty try another file."
-            loadImageFromSource(data.filePaths[0])
-        }
-    });
-
-
-    var viewer = new Marzipano.Viewer(document.getElementById('pano'));
-    function newPano(path) {
-        var sourceIm = Marzipano.ImageUrlSource.fromString(path);
-        // Create scene.
-        var scene = viewer.createScene({
-            source: sourceIm,
-            geometry: geometry,
-            view: view,
-            pinFirstLevel: true
-        });
-        scene.switchTo()
-    }
-
-
-    var geometry = new Marzipano.EquirectGeometry([{ width: 4000 }]);
-
-    // Create view.
-    var limiter = Marzipano.RectilinearView.limit.traditional(4000, 120 * Math.PI / 180);
-    var view = new Marzipano.RectilinearView({ yaw: Math.PI }, limiter);
-</script>
-
-
+<script src="../main.js"></script>
 <style>
     * {
         -webkit-box-sizing: border-box;

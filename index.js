@@ -1,4 +1,11 @@
-const { app, BrowserWindow, protocol, Menu, dialog } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  protocol,
+  Menu,
+  dialog,
+  ipcMain,
+} = require("electron");
 const url = require("url");
 const path = require("path");
 
@@ -53,7 +60,7 @@ function createStartupInfo() {
 
   win2.setFullScreen(false);
   win2.setAlwaysOnTop(false);
-  win2.loadFile("ui_templates/about.html");
+  win2.loadFile("dist/ui_templates/about.html");
   win2.show();
   return win2;
 }
@@ -70,7 +77,7 @@ function createWindow() {
 
   win.loadURL(
     url.format({
-      pathname: path.join(__dirname, "index.html"),
+      pathname: "dist/ui_templates/index.html",
       protocol: "file:",
       slashes: true,
     })
@@ -81,6 +88,24 @@ function createWindow() {
 }
 
 app.on("ready", function () {
-  // aWin2 = createStartupInfo();
   createWindow();
+
+  ipcMain.on("synchronous-message", (event, arg) => {
+    console.log(arg);
+    if (arg == "openFile") {
+      dialog
+        .showOpenDialog({ properties: ["openFile", "multiSelections"] })
+        .then(function (data) {
+          console.log(data);
+          win.webContents.send("FileData", data);
+        });
+    } else if (arg == "resize") {
+      // A really ugly hack to force the window to update, so the canvas shows up
+      win.setSize(win.getSize()[0] + 1, win.getSize()[1]);
+      setTimeout(function () {
+        win.setSize(win.getSize()[0] + 1, win.getSize()[1]);
+      }, 200);
+    }
+    event.returnValue = "";
+  });
 });

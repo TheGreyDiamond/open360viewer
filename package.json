@@ -2,16 +2,29 @@
   "name": "open360viewer",
   "version": "1.0.0",
   "description": "An opensource 360° image viewer written in NodeJS using Electron and Marzipano",
-  "keywords": ["360", "image", "viewer"],
+  "keywords": [
+    "360",
+    "image",
+    "viewer"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "startDev": "npm run buildCss && npm run minify &&  electron .",
+    "minify": "minify src/main.js > dist/main.js && minify src/ui_templates/index.html > dist/ui_templates/index.html && minify src/ui_templates/about.html > dist/ui_templates/about.html",
+    "buildCss": "npx tailwindcss -i ./src/main.css -o ./dist/output.css",
+    "buildCssWatch": "npx tailwindcss -i ./src/main.css -o ./dist/output.css --watch"
   },
   "author": "TheGreydiamond",
   "license": "GPL-3.0",
   "dependencies": {
+    "@themesberg/flowbite": "^1.2.0",
     "electron": "^16.0.5",
     "marzipano": "^0.10.2"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.0.8",
+    "minify": "^8.0.3"
   }
 }
