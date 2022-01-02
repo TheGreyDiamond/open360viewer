@@ -1,6 +1,6 @@
 {
   "name": "open360viewer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An opensource 360° image viewer written in NodeJS using Electron and Marzipano",
   "keywords": [
     "360",
@@ -19,12 +19,13 @@
   "author": "TheGreydiamond",
   "license": "GPL-3.0",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "@themesberg/flowbite": "^1.2.0",
     "electron": "^16.0.5",
     "marzipano": "^0.10.2"
   },
   "devDependencies": {
-    "tailwindcss": "^3.0.8",
-    "minify": "^8.0.3"
+    "minify": "^8.0.3",
+    "tailwindcss": "^3.0.8"
   }
 }
