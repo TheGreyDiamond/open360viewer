@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>360 Viewer</title>
+    <script src="node_modules/marzipano/dist/marzipano.js">
+    </script>
+    <link href="./static/default.css" rel="stylesheet" />
+    <link href="./static/fontawesome-free-5.15.1-web/css/all.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <center>
+        <h1 id="state"></h1>
+        <div id="fakeDropzone" class="fakeDropzone">
+            <i class="far fa-folder-open"></i><br>
+               <a>Drag & Drop a file here</a>
+               <des>or</des>
+               <button>Browse Files</button>
+        </div>
+    </center>
+    
+    <div id="pano">
+
+    </div>
+</body>
+
+<script>
+    document.addEventListener('drop', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        document.getElementById("state").innerHTML = "Loading file. If this stays empty try another file."
+        const superFile = event.dataTransfer.files[0].path;
+        loadImageFromSource(superFile)
+    });
+
+    document.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    document.addEventListener('dragenter', (event) => {
+        console.log('File is in the Drop Space');
+    });
+
+    document.addEventListener('dragleave', (event) => {
+        console.log('File has left the Drop Space');
+    });
+
+    function loadImageFromSource(path) {
+        testImage(path,
+            function (e, suc) {
+                if (suc == "success") {
+                    newPano(path)
+                }
+                else {
+                    document.getElementById("state").innerHTML = "Load failed."
+                }
+            });
+    }
+
+    function testImage(url, callback, timeout) {
+        timeout = timeout || 5000;
+        var timedOut = false, timer;
+        var img = new Image();
+        img.onerror = img.onabort = function () {
+            if (!timedOut) {
+                clearTimeout(timer);
+                callback(url, "error");
+            }
+        };
+        img.onload = function () {
+            if (!timedOut) {
+                clearTimeout(timer);
+                callback(url, "success");
+            }
+        };
+        img.src = url;
+        timer = setTimeout(function () {
+            timedOut = true;
+            // reset .src to invalid URL so it stops previous
+            // loading, but doesn't trigger new load
+            img.src = "//!!!!/test.jpg";
+            document.getElementById("state").innerHTML = "Load failed."
+            callback(url, "timeout");
+        }, timeout);
+    }
+
+</script>
+<script>
+    const { ipcRenderer } = require('electron')
+
+    ipcRenderer.on('FileData', function (event, data) {
+        console.log(data);
+        if (data.canceled == false) {
+            // newPano(data.filePaths[0])
+            document.getElementById("state").innerHTML = "Loading file. If this stays empty try another file."
+            loadImageFromSource(data.filePaths[0])
+        }
+    });
+
+
+    var viewer = new Marzipano.Viewer(document.getElementById('pano'));
+    function newPano(path) {
+        var sourceIm = Marzipano.ImageUrlSource.fromString(path);
+        // Create scene.
+        var scene = viewer.createScene({
+            source: sourceIm,
+            geometry: geometry,
+            view: view,
+            pinFirstLevel: true
+        });
+        scene.switchTo()
+    }
+
+
+    var geometry = new Marzipano.EquirectGeometry([{ width: 4000 }]);
+
+    // Create view.
+    var limiter = Marzipano.RectilinearView.limit.traditional(4000, 120 * Math.PI / 180);
+    var view = new Marzipano.RectilinearView({ yaw: Math.PI }, limiter);
+</script>
+
+
+<style>
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-user-drag: none;
+        -webkit-touch-callout: none;
+        -ms-content-zooming: none;
+    }
+
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    #pano {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+</html>
