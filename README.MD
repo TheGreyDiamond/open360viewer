@@ -8,3 +8,8 @@ Currently the viewer can only be used if you have nodeJs installed. Complete pac
 3. Just run it using `npm start`
 
 If you are developing you might want to use `npm run startDev` as it also builds all assets at each launch.
+
+# Screenshots
+
+![App when no game is loaded](https://github.com/TheGreyDiamond/open360viewer/blob/central/screenshots/noImageLoaded.png?raw=true)
+![App when no game is loaded](https://github.com/TheGreyDiamond/open360viewer/blob/central/screenshots/imageLoaded.png?raw=true)
