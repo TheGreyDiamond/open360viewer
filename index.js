@@ -60,7 +60,7 @@ function createStartupInfo() {
 
   win2.setFullScreen(false);
   win2.setAlwaysOnTop(false);
-  win2.loadFile("dist/ui_templates/about.html");
+  win2.loadFile(path.join(__dirname, "dist/ui_templates/about.html"));
   win2.show();
   return win2;
 }
@@ -77,7 +77,7 @@ function createWindow() {
 
   win.loadURL(
     url.format({
-      pathname: "dist/ui_templates/index.html",
+      pathname: path.join(__dirname, "dist/ui_templates/index.html"),
       protocol: "file:",
       slashes: true,
     })
