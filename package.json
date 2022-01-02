@@ -1,7 +1,7 @@
 {
   "name": "open360viewer",
   "version": "1.0.0",
-  "description": "An opensource 360° image viewer written in JavaScript using Electron and Marzipano",
+  "description": "An opensource 360° image viewer written in NodeJS using Electron and Marzipano",
   "keywords": ["360", "image", "viewer"],
   "main": "index.js",
   "scripts": {
