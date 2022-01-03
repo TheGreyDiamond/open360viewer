@@ -35,6 +35,30 @@ const template = [
   {
     role: "help",
     submenu: [
+      {
+        label: "Switch to image mode",
+        click: async () => {
+          win.loadURL(
+            url.format({
+              pathname: path.join(__dirname, "dist/ui_templates/index.html"),
+              protocol: "file:",
+              slashes: true,
+            })
+          );
+        },
+      },
+      {
+        label: "Switch to video mode",
+        click: async () => {
+          win.loadURL(
+            url.format({
+              pathname: path.join(__dirname, "dist/ui_templates/videoPlayer.html"),
+              protocol: "file:",
+              slashes: true,
+            })
+          );
+        },
+      },
       { role: "toggleDevTools" },
       {
         label: "About",
@@ -77,7 +101,7 @@ function createWindow() {
 
   win.loadURL(
     url.format({
-      pathname: path.join(__dirname, "dist/ui_templates/index.html"),
+      pathname: path.join(__dirname, "dist/ui_templates/videoPlayer.html"),
       protocol: "file:",
       slashes: true,
     })
