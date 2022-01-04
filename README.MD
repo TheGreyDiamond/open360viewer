@@ -15,6 +15,7 @@ If you are developing you might want to use `npm run startDev` as it also builds
 ### Planned features
 - being able to flip through all images in a folder
 - show meta data
+- adds possibilty to support Windows's Open with feature
 ## Screenshots
 
 ![App when no game is loaded](https://github.com/TheGreyDiamond/open360viewer/blob/central/screenshots/noImageLoaded.png?raw=true)
