@@ -11,6 +11,7 @@ If you are developing you might want to use `npm run startDev` as it also builds
 ## Features
 - viewing equirectangular 360° images
 - viewing equirectangular 360° videos
+### WiP
 ### Planned features
 - being able to flip through all images in a folder
 - show meta data
