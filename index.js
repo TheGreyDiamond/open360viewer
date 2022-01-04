@@ -8,7 +8,7 @@ const {
 } = require("electron");
 const url = require("url");
 const path = require("path");
-
+const FileType = require("file-type");
 let win;
 const isMac = process.platform === "darwin";
 
@@ -24,8 +24,16 @@ const template = [
           dialog
             .showOpenDialog({ properties: ["openFile", "multiSelections"] })
             .then(function (data) {
-              console.log(data);
-              win.webContents.send("FileData", data);
+              if (data.canceled == false) {
+                console.log(data);
+                FileType.fromFile(data.filePaths[0]).then((type) => {
+                  console.log(type["mime"].split("/")[0]);
+                  data.type = type["mime"].split("/")[0];
+                  win.webContents.send("FileData", data);
+                });
+              }
+              // console.log(await FileType.fromFile(data));
+              //  win.webContents.send("FileData", data);
             });
         },
       },
@@ -52,7 +60,10 @@ const template = [
         click: async () => {
           win.loadURL(
             url.format({
-              pathname: path.join(__dirname, "dist/ui_templates/videoPlayer.html"),
+              pathname: path.join(
+                __dirname,
+                "dist/ui_templates/videoPlayer.html"
+              ),
               protocol: "file:",
               slashes: true,
             })
@@ -101,7 +112,7 @@ function createWindow() {
 
   win.loadURL(
     url.format({
-      pathname: path.join(__dirname, "dist/ui_templates/videoPlayer.html"),
+      pathname: path.join(__dirname, "dist/ui_templates/index.html"),
       protocol: "file:",
       slashes: true,
     })
@@ -120,8 +131,13 @@ app.on("ready", function () {
       dialog
         .showOpenDialog({ properties: ["openFile", "multiSelections"] })
         .then(function (data) {
-          console.log(data);
-          win.webContents.send("FileData", data);
+          console.log(data.filePaths);
+          // console.log(await FileType.fromFile(data));
+          FileType.fromFile(data.filePaths[0]).then((type) => {
+            console.log(type["mime"].split("/")[0]);
+            data.type = type["mime"].split("/")[0];
+            win.webContents.send("FileData", data);
+          });
         });
     } else if (arg == "resize") {
       // A really ugly hack to force the window to update, so the canvas shows up
