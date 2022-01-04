@@ -103,10 +103,8 @@
     document.getElementById("pano2").style.display = "none";
 
     document.addEventListener('drop', (event) => {
-
         event.preventDefault();
         event.stopPropagation();
-
         document.getElementById("fakeDropzone").style.display = "none";
         document.getElementById("loadingBig").style.display = "block";
         document.getElementById("state").innerHTML = "Loading file. If this stays empty try another file."

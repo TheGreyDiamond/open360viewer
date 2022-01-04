@@ -25,9 +25,7 @@ const template = [
             .showOpenDialog({ properties: ["openFile", "multiSelections"] })
             .then(function (data) {
               if (data.canceled == false) {
-                console.log(data);
                 FileType.fromFile(data.filePaths[0]).then((type) => {
-                  console.log(type["mime"].split("/")[0]);
                   data.type = type["mime"].split("/")[0];
                   win.webContents.send("FileData", data);
                 });
@@ -43,33 +41,6 @@ const template = [
   {
     role: "help",
     submenu: [
-      {
-        label: "Switch to image mode",
-        click: async () => {
-          win.loadURL(
-            url.format({
-              pathname: path.join(__dirname, "dist/ui_templates/index.html"),
-              protocol: "file:",
-              slashes: true,
-            })
-          );
-        },
-      },
-      {
-        label: "Switch to video mode",
-        click: async () => {
-          win.loadURL(
-            url.format({
-              pathname: path.join(
-                __dirname,
-                "dist/ui_templates/videoPlayer.html"
-              ),
-              protocol: "file:",
-              slashes: true,
-            })
-          );
-        },
-      },
       { role: "toggleDevTools" },
       {
         label: "About",
@@ -131,10 +102,7 @@ app.on("ready", function () {
       dialog
         .showOpenDialog({ properties: ["openFile", "multiSelections"] })
         .then(function (data) {
-          console.log(data.filePaths);
-          // console.log(await FileType.fromFile(data));
           FileType.fromFile(data.filePaths[0]).then((type) => {
-            console.log(type["mime"].split("/")[0]);
             data.type = type["mime"].split("/")[0];
             win.webContents.send("FileData", data);
           });
