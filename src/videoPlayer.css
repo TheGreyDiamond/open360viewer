@@ -1,0 +1,192 @@
+#pano {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#pano2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+/* General layout */
+
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: #fff;
+  overflow: hidden;
+}
+
+.control-btn,
+.time {
+  height: 100%;
+  position: absolute;
+  box-size: border-box;
+}
+
+.video-controls {
+  height: 40px;
+}
+.play,
+.sound,
+.options {
+  width: 40px;
+}
+
+.play {
+  left: 0;
+}
+.sound {
+  left: 40px;
+}
+.options {
+  right: 0;
+}
+.resolution {
+  right: 40px;
+}
+
+.time {
+  position: absolute;
+  left: 80px;
+  right: 140px;
+}
+
+/* Control button style (play, mute, options, resolution) */
+
+.control-btn {
+  background-color: rgb(103, 115, 131);
+  background-color: rgba(103, 115, 131, 0.8);
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+}
+
+.control-btn:hover {
+  background-color: rgb(78, 88, 104);
+  background-color: rgba(78, 88, 104, 0.8);
+}
+
+/* Play, mute, options */
+
+.play img,
+.sound img,
+.options img {
+  height: 66%;
+  width: 66%;
+  margin-top: 17%;
+  margin-left: 17%;
+}
+
+/* Progress bar */
+
+.initial-time,
+.progress-wrapper,
+.end-time {
+  position: absolute;
+}
+
+.initial-time,
+.end-time {
+  width: 50px;
+}
+
+.initial-time {
+  left: 14px;
+}
+
+.end-time {
+  right: 14px;
+}
+
+.progress-wrapper {
+  left: 78px;
+  right: 78px;
+}
+
+.initial-time,
+.end-time {
+  text-align: center;
+  top: 12px;
+}
+
+.progress-wrapper {
+  padding: 15px 0;
+  cursor: pointer;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: rgb(103, 115, 131);
+  background-color: rgba(103, 115, 131, 0.8);
+  border-radius: 20px;
+}
+
+.progress-wrapper .progress-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background-color: #eee;
+  border-radius: 20px;
+}
+
+.initial-time,
+.end-time {
+  font-size: 14px;
+}
+
+.time {
+  background-color: rgb(58, 68, 84);
+  background-color: rgba(58, 68, 84, 0.8);
+}
+
+/* Show state */
+
+.play-icon {
+  display: block;
+  font-size: x-large;
+  padding: 8px;
+}
+.pause-icon {
+  display: none;
+  font-size: x-large;
+  padding: 8px;
+}
+.video-playing .play-icon {
+  display: none;
+}
+.video-playing .pause-icon {
+  display: block;
+}
+
+.sound-on {
+  display: block;
+  font-size: x-large;
+  padding: 8px;
+}
+.sound-off {
+  display: none;
+  font-size: x-large;
+  padding: 8px;
+}
+.video-muted .sound-on {
+  display: none;
+}
+.video-muted .sound-off {
+  display: block;
+}
+
+.resolution-changing-indicator,
+.resolution-modal-changing-indicator {
+  display: none;
+}
+
+.video-resolution-changing .resolution-changing-indicator,
+.video-resolution-changing .resolution-modal-changing-indicator {
+  display: block;
+}

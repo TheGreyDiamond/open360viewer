@@ -1,5 +1,5 @@
 # open360viewer
-open360viewer is an opensource 360° image viewer. It is based on electron and marzipano. It currently supports opening equirectangular 360° images.
+open360viewer is an opensource 360° media viewer. It is based on electron and marzipano. It currently supports opening equirectangular 360° images and videos.
 
 ## Getting started
 Currently the viewer can only be used if you have nodeJs installed. Complete packaging is planned.
@@ -10,8 +10,8 @@ Currently the viewer can only be used if you have nodeJs installed. Complete pac
 If you are developing you might want to use `npm run startDev` as it also builds all assets at each launch.
 ## Features
 - viewing equirectangular 360° images
-### WiP
 - viewing equirectangular 360° videos
+### WiP
 ### Planned features
 - being able to flip through all images in a folder
 - show meta data

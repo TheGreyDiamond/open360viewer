@@ -8,7 +8,11 @@ ipcRenderer.on("FileData", function (event, data) {
     document.getElementById("loadingBig").style.display = "block";
     document.getElementById("state").innerHTML =
       "Loading file. If this stays empty try another file.";
-    loadImageFromSource(data.filePaths[0]);
+    if (data.type == "image") {
+      loadImageFromSource(data.filePaths[0]);
+    } else if (data.type == "video") {
+      loadVideoFromSource(data.filePaths[0]);
+    }
   }
 });
 
@@ -16,7 +20,7 @@ function openFile() {
   ipcRenderer.sendSync("synchronous-message", "openFile");
 }
 
-var viewer = new Marzipano.Viewer(document.getElementById("pano"));
+var viewer = new Marzipano.Viewer(document.getElementById("pano2"));
 function newPano(path) {
   var sourceIm = Marzipano.ImageUrlSource.fromString(path);
   // Create scene.
@@ -28,9 +32,10 @@ function newPano(path) {
   });
   scene.switchTo();
   setTimeout(function () {
-    scene.switchTo()
-    }, 20);
-    ipcRenderer.sendSync("synchronous-message", "resize");
+    scene.switchTo();
+  }, 20);
+  ipcRenderer.sendSync("synchronous-message", "resize");
+  document.getElementById("video-controls").style.display = "none";
 }
 
 var geometry = new Marzipano.EquirectGeometry([{ width: 4000 }]);
@@ -41,3 +46,19 @@ var limiter = Marzipano.RectilinearView.limit.traditional(
   (120 * Math.PI) / 180
 );
 var view = new Marzipano.RectilinearView({ yaw: Math.PI }, limiter);
+
+function loadVideoFromSource(path) {
+  setTimeout(function () {
+    multiResVideo.setResolutionIndex(1, path, loadingDone);
+  }, 20);
+}
+
+function loadingDone(state) {
+  if (!state) {
+      document.getElementById("loadingBig").style.display = "none";
+      ipcRenderer.sendSync("synchronous-message", "resize");
+      document.getElementById("pano").style.display = "block";
+      document.getElementById("pano2").style.display = "none";
+      document.getElementById("video-controls").style.display = "block";
+  }
+}

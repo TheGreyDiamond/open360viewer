@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "startDev": "npm run buildCss && npm run minify &&  electron .",
-    "minify": "minify src/main.js > dist/main.js && minify src/ui_templates/index.html > dist/ui_templates/index.html && minify src/ui_templates/about.html > dist/ui_templates/about.html",
+    "minify": "minify src/main.js > dist/main.js && minify src/ui_templates/index.html > dist/ui_templates/index.html && minify src/videoPlayer.css > dist/videoPlayer.css && minify src/videoPlayHandler.js > dist/videoPlayHandler.js && minify src/ui_templates/videoPlayer.html > dist/ui_templates/videoPlayer.html && minify src/ui_templates/about.html > dist/ui_templates/about.html",
     "buildCss": "npx tailwindcss -i ./src/main.css -o ./dist/output.css",
     "buildCssWatch": "npx tailwindcss -i ./src/main.css -o ./dist/output.css --watch",
     "package": "electron-forge package",
@@ -51,16 +51,17 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@themesberg/flowbite": "^1.2.0",
     "electron": "^16.0.5",
+    "file-type": "^16.5.3",
     "marzipano": "^0.10.2"
   },
   "devDependencies": {
-    "minify": "^8.0.3",
-    "tailwindcss": "^3.0.8",
     "@electron-forge/cli": "^6.0.0-beta.61",
     "@electron-forge/maker-deb": "^6.0.0-beta.61",
     "@electron-forge/maker-rpm": "^6.0.0-beta.61",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "electron": "^16.0.5"
+    "electron": "^16.0.5",
+    "minify": "^8.0.3",
+    "tailwindcss": "^3.0.8"
   }
 }

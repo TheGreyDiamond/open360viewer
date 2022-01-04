@@ -8,7 +8,7 @@ const {
 } = require("electron");
 const url = require("url");
 const path = require("path");
-
+const FileType = require("file-type");
 let win;
 const isMac = process.platform === "darwin";
 
@@ -24,8 +24,14 @@ const template = [
           dialog
             .showOpenDialog({ properties: ["openFile", "multiSelections"] })
             .then(function (data) {
-              console.log(data);
-              win.webContents.send("FileData", data);
+              if (data.canceled == false) {
+                FileType.fromFile(data.filePaths[0]).then((type) => {
+                  data.type = type["mime"].split("/")[0];
+                  win.webContents.send("FileData", data);
+                });
+              }
+              // console.log(await FileType.fromFile(data));
+              //  win.webContents.send("FileData", data);
             });
         },
       },
@@ -96,8 +102,10 @@ app.on("ready", function () {
       dialog
         .showOpenDialog({ properties: ["openFile", "multiSelections"] })
         .then(function (data) {
-          console.log(data);
-          win.webContents.send("FileData", data);
+          FileType.fromFile(data.filePaths[0]).then((type) => {
+            data.type = type["mime"].split("/")[0];
+            win.webContents.send("FileData", data);
+          });
         });
     } else if (arg == "resize") {
       // A really ugly hack to force the window to update, so the canvas shows up
