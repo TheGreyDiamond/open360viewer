@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "startDev": "npm run buildCss && npm run minify &&  electron .",
-    "minify": "minify src/main.js > dist/main.js && minify src/ui_templates/index.html > dist/ui_templates/index.html && minify src/videoPlayer.css > dist/videoPlayer.css && minify src/videoPlayHandler.js > dist/videoPlayHandler.js && minify src/ui_templates/videoPlayer.html > dist/ui_templates/videoPlayer.html && minify src/ui_templates/about.html > dist/ui_templates/about.html",
+    "minify": "node tooling/minifyAll/minifyAllSrcs.js",
     "buildCss": "npx tailwindcss -i ./src/main.css -o ./dist/output.css",
     "buildCssWatch": "npx tailwindcss -i ./src/main.css -o ./dist/output.css --watch",
     "package": "electron-forge package",

@@ -55,7 +55,7 @@
 .time {
   position: absolute;
   left: 80px;
-  right: 140px;
+  right: 0px;
 }
 
 /* Control button style (play, mute, options, resolution) */
