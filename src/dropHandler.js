@@ -6,6 +6,7 @@ document.addEventListener("drop", (event) => {
   document.getElementById("state").innerHTML =
     "Loading file. If this stays empty try another file.";
   const superFile = event.dataTransfer.files[0].path;
+  document.getElementById("title").innerHTML = "open360viewer - "  + superFile
   FileType.fromFile(superFile).then((type) => {
     type = type["mime"].split("/")[0];
     if (type == "image") {

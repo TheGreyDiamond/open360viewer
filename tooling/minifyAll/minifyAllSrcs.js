@@ -24,12 +24,7 @@ var getDirectories = function (src, callback) {
                 let data = minify(myFile, options).then(function(data) {
                     fs.writeFileSync(dst, data);
                 })
-                
-                //
             }
-            
-            
-            //
         }
       
     }

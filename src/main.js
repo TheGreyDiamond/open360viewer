@@ -8,6 +8,7 @@ ipcRenderer.on("FileData", function (event, data) {
     document.getElementById("loadingBig").style.display = "block";
     document.getElementById("state").innerHTML =
       "Loading file. If this stays empty try another file.";
+      document.getElementById("title").innerHTML = "open360viewer - "  + data.filePaths[0];
     if (data.type == "image") {
       loadImageFromSource(data.filePaths[0]);
     } else if (data.type == "video") {
