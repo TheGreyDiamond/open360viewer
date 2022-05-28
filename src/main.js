@@ -1,5 +1,7 @@
 const { ipcRenderer, ipcMain } = require("electron");
 
+let currentIndex = -1;
+
 ipcRenderer.on("FileData", function (event, data) {
   console.log(data);
   if (data.canceled == false) {
@@ -14,8 +16,27 @@ ipcRenderer.on("FileData", function (event, data) {
     } else if (data.type == "video") {
       loadVideoFromSource(data.filePaths[0]);
     }
+    makeFileIndex(data.filePaths[0]);
   }
+  
 });
+
+function getPathWithoutExtension(path) {
+  return path.substring(0, path.lastIndexOf("/")) || path.substring(0, path.lastIndexOf("\\"));
+}
+
+function makeFileIndex(fullPath) {
+  fileName = fullPath.substring(fullPath.lastIndexOf("/")) || fullPath.substring(0, fullPath.lastIndexOf("\\"));
+  path = getPathWithoutExtension(fullPath);
+  const result = ipcRenderer.sendSync("synchronous-message", "indexFolder;" + path);
+  const finalResult = [];
+  for(elm in result) {
+    const curr = result[elm];
+    finalResult.push(path + curr)
+  }
+  currentIndex = fin
+  console.log(finalResult)
+}
 
 function openFile() {
   ipcRenderer.sendSync("synchronous-message", "openFile");

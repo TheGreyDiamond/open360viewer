@@ -10,56 +10,24 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
+    "start": "electron ",
     "startDev": "npm run buildCss && npm run minify &&  electron .",
     "minify": "node tooling/minifyAll/minifyAllSrcs.js",
     "buildCss": "npx tailwindcss -i ./src/main.css -o ./dist/output.css",
-    "buildCssWatch": "npx tailwindcss -i ./src/main.css -o ./dist/output.css --watch",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "buildCssWatch": "npx tailwindcss -i ./src/main.css -o ./dist/output.css --watch"
   },
   "author": "TheGreydiamond",
   "license": "GPL-3.0",
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "open360viewer"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
-  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@themesberg/flowbite": "^1.2.0",
     "file-type": "^16.5.3",
+    "glob": "^7.2.0",
     "marzipano": "^0.10.2"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.61",
-    "@electron-forge/maker-deb": "^6.0.0-beta.61",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
-    "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "electron": "^16.0.6",
+    "electron-packager": "^15.4.0",
     "minify": "^8.0.3",
     "tailwindcss": "^3.0.11"
   }

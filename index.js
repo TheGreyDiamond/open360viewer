@@ -9,6 +9,10 @@ const {
 const url = require("url");
 const path = require("path");
 const FileType = require("file-type");
+const glob = require("glob");
+const fs = require("fs");
+
+
 let win;
 const isMac = process.platform === "darwin";
 
@@ -96,6 +100,9 @@ function createWindow() {
 app.on("ready", function () {
   createWindow();
 
+
+  console.log(process.argv)
+
   ipcMain.on("synchronous-message", (event, arg) => {
     console.log(arg);
     if (arg == "openFile") {
@@ -104,16 +111,50 @@ app.on("ready", function () {
         .then(function (data) {
           FileType.fromFile(data.filePaths[0]).then((type) => {
             data.type = type["mime"].split("/")[0];
+            console.info(data)
             win.webContents.send("FileData", data);
           });
         });
+      event.returnValue = "";
     } else if (arg == "resize") {
       // A really ugly hack to force the window to update, so the canvas shows up
       win.setSize(win.getSize()[0] + 1, win.getSize()[1]);
       setTimeout(function () {
         win.setSize(win.getSize()[0] + 1, win.getSize()[1]);
       }, 200);
+      event.returnValue = "";
+    } else if (arg.includes("indexFolder")) {
+      const fold = arg.split(";")[1];
+      folder = fs.readdirSync(fold);
+      let result = [];
+      for (const file in folder) {
+        const myFile = folder[file];
+        if (fs.statSync(fold + "/" + myFile).isFile()) {
+          result.push(myFile)
+        }
+      }
+      event.returnValue = result;
+    } else if (arg == "finishedLoading") {
+      const tryOpenFile = process.argv[1];
+
+      if (tryOpenFile != undefined) {
+        console.log("Opening file: ", process.argv[1])
+        if (fs.existsSync(tryOpenFile)) {
+          data = {
+            canceled: false,
+            filePaths: [process.argv[1]]
+          };
+          FileType.fromFile(data.filePaths[0]).then((type) => {
+            data.type = type["mime"].split("/")[0];
+            console.log(data)
+            win.webContents.send("FileData", data);
+          });
+        } else {
+          console.log("Argument file does not exist")
+        }
+      }
+
     }
-    event.returnValue = "";
+
   });
 });
