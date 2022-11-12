@@ -10,43 +10,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
+    "start": "electron ",
     "startDev": "npm run buildCss && npm run minify &&  electron .",
     "minify": "node tooling/minifyAll/minifyAllSrcs.js",
     "buildCss": "npx tailwindcss -i ./src/main.css -o ./dist/output.css",
-    "buildCssWatch": "npx tailwindcss -i ./src/main.css -o ./dist/output.css --watch",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "buildCssWatch": "npx tailwindcss -i ./src/main.css -o ./dist/output.css --watch"
   },
   "author": "TheGreydiamond",
   "license": "GPL-3.0",
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "open360viewer"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
-  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.0",
     "file-type": "^16.5.3",
