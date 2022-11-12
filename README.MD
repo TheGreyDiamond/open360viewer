@@ -18,5 +18,5 @@ If you are developing you might want to use `npm run startDev` as it also builds
 - adds possibilty to support Windows's Open with feature
 ## Screenshots
 
-![App when no game is loaded](https://github.com/TheGreyDiamond/open360viewer/blob/central/screenshots/noImageLoaded.png?raw=true)
-![App when no game is loaded](https://github.com/TheGreyDiamond/open360viewer/blob/central/screenshots/imageLoaded.png?raw=true)
+![App when no file is loaded](https://github.com/TheGreyDiamond/open360viewer/blob/central/screenshots/noImageLoaded.png?raw=true)
+![App when file is loaded](https://github.com/TheGreyDiamond/open360viewer/blob/central/screenshots/imageLoaded.png?raw=true)
